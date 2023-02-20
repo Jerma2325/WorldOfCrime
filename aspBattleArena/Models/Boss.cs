@@ -7,7 +7,6 @@ namespace aspBattleArena.Models;
 public class Boss
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int BossId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }

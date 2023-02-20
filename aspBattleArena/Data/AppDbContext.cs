@@ -25,17 +25,17 @@ public class AppDbContext: DbContext
         modelBuilder.Entity<Base>().HasOne(b => b.Organization);
         modelBuilder.Entity<GangMember>().HasOne(g => g.Organization);
 
-        modelBuilder.Entity<Boss>(entity =>
-        {
-            entity.HasKey(e => e.BossId);
-            entity.Property(e => e.BossId);
-            entity.Property(e => e.FirstName).HasMaxLength(250);
-            entity.Property(e => e.LastName).HasMaxLength(250);
-            entity.Property(e => e.Nationality);
-            entity.Property(e => e.Age);
+        //modelBuilder.Entity<Boss>(entity =>
+        //{
+        //    entity.HasKey(e => e.BossId);
+        //    entity.Property(e => e.BossId);
+        //    entity.Property(e => e.FirstName).HasMaxLength(250);
+        //    entity.Property(e => e.LastName).HasMaxLength(250);
+        //    entity.Property(e => e.Nationality);
+        //    entity.Property(e => e.Age);
 
-            entity.HasData(new Boss
-                {BossId = 1, Age = 81, FirstName = "Kenichi", LastName = "Shinoda", Nationality = Nationality.Japanese, });
-        });
+        //    entity.HasData(new Boss
+        //    { BossId = 1, Age = 81, FirstName = "Kenichi", LastName = "Shinoda", Nationality = Nationality.Japanese, });
+        //});
     } 
 }

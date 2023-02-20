@@ -6,7 +6,6 @@ namespace aspBattleArena.Models;
 public class Organization
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int OgranizationId { get; set; }
     public string Name { get; set; }
     public string CountryOfOrigin { get; set; }

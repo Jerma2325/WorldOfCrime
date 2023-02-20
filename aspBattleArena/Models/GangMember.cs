@@ -6,7 +6,6 @@ namespace aspBattleArena.Models;
 public class GangMember
 {
     [Key]
-    [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
     public int MemberId { get; set; }
     public string FirstName { get; set; }
     public string LastName { get; set; }
