@@ -11,6 +11,7 @@
   <ItemGroup>
     <PackageReference Include="EntityFramework" Version="6.4.4" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="7.0.3" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Abstractions" Version="7.0.3" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Analyzers" Version="7.0.3" />
@@ -35,5 +36,8 @@
   <ItemGroup>
     <None Remove="Microsoft.Extensions.DependencyInjection" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
+  </ItemGroup>
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Areas\Identity\Pages\_ViewStart.cshtml" />
   </ItemGroup>
 </Project>

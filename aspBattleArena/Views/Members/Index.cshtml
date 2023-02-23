@@ -4,36 +4,46 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Gang Members</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.FirstName)
+                First Name
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.LastName)
+                Last Name
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.Nationality)
             </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Strength)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Endurance)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Intelligence)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Luck)
-            </th>
-            <th></th>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <th>
+                    @Html.DisplayNameFor(model => model.Strength)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Endurance)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Intelligence)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Luck)
+                </th>
+                <th>
+                    Organization
+                </th>
+            }
+            
+           
         </tr>
     </thead>
     <tbody>
@@ -48,17 +58,23 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Nationality)
             </td>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <td>
+                    @Html.DisplayFor(modelItem => item.Strength)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Endurance)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Intelligence)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Luck)
+                </td>
+            }
             <td>
-                @Html.DisplayFor(modelItem => item.Strength)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Endurance)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Intelligence)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Luck)
+                @Html.DisplayFor(modelItem => item.Organization.Name)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.MemberId">Edit</a> |

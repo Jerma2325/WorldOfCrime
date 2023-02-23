@@ -9,6 +9,7 @@ namespace aspBattleArena.Data;
 
 public static class DbInitializer
 {
+
     public static void Initialize(IServiceProvider serviceProvider)
     {
         

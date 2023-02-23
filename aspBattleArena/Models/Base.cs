@@ -12,6 +12,7 @@ public class Base
     public int BaseID { get; set; }
     public string Name { get; set; }
     public string Adress { get; set; }
+    public  string OrganizationName { get; set; }
     public Organization Organization { get; set; }
 
     public Base()

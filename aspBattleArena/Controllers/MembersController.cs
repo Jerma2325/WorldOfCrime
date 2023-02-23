@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using aspBattleArena.Data;
 using aspBattleArena.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspBattleArena.Controllers
 {
@@ -18,7 +19,7 @@ namespace aspBattleArena.Controllers
         {
             _context = context;
         }
-
+        [AllowAnonymous]
         // GET: Members
         public async Task<IActionResult> Index()
         {
@@ -26,7 +27,7 @@ namespace aspBattleArena.Controllers
                           View(await _context.GangMembers.ToListAsync()) :
                           Problem("Entity set 'AppDbContext.GangMembers'  is null.");
         }
-
+        [Authorize]
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -35,8 +36,7 @@ namespace aspBattleArena.Controllers
                 return NotFound();
             }
 
-            var gangMember = await _context.GangMembers
-                .FirstOrDefaultAsync(m => m.MemberId == id);
+            var gangMember = await _context.GangMembers.Include(gm=>gm.Organization).FirstOrDefaultAsync(m => m.MemberId == id);
             if (gangMember == null)
             {
                 return NotFound();
@@ -44,7 +44,7 @@ namespace aspBattleArena.Controllers
 
             return View(gangMember);
         }
-
+        [Authorize]
         // GET: Members/Create
         public IActionResult Create()
         {
@@ -55,18 +55,39 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("MemberId,FirstName,LastName,Nationality,Strength,Endurance,Intelligence,Luck")] GangMember gangMember)
+        [Authorize]
+        public IActionResult Create([FromForm] GangMember gangMember)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(gangMember);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            return View(gangMember);
-        }
+            
+                var rnd = new Random();
+                var newMember = new GangMember()
+                {
+                    LastName = gangMember.LastName,
+                    FirstName = gangMember.FirstName,
+                    Intelligence = rnd.Next(1,10),
+                    Endurance = rnd.Next(1,10),
+                    Luck = rnd.Next(1, 10),
+                    Strength = rnd.Next(1,10),
+                    Nationality = gangMember.Nationality,
+                };
+                if (_context.Organizations.Any(or=>or.Name==gangMember.Organization.Name))
+                {
+                    newMember.Organization = _context.Organizations.FirstOrDefault(or => or.Name == gangMember.Organization.Name);
+                     _context.Organizations.First(or=>or.Name == gangMember.Organization.Name).Members.Add(newMember);
+                    _context.GangMembers.Add(newMember);
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
+                }
+                else
+                {
+                    _context.GangMembers.Add(newMember);
+                    _context.SaveChanges();
+                    return RedirectToAction(nameof(Index));
 
+                }
+                // return View(gangMember);
+        }
+        [Authorize]
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -75,7 +96,7 @@ namespace aspBattleArena.Controllers
                 return NotFound();
             }
 
-            var gangMember = await _context.GangMembers.FindAsync(id);
+            var gangMember =  _context.GangMembers.Include(gm=>gm.Organization).FirstOrDefault(gm=>gm.MemberId==id);
             if (gangMember == null)
             {
                 return NotFound();
@@ -87,37 +108,34 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("MemberId,FirstName,LastName,Nationality,Strength,Endurance,Intelligence,Luck")] GangMember gangMember)
+        [Authorize]
+        public IActionResult Edit(int id, [FromForm] GangMember gangMember)
         {
-            if (id != gangMember.MemberId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(gangMember);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!GangMemberExists(gangMember.MemberId))
+            if (_context.Organizations.Any(or=>or.Name==gangMember.Organization.Name))
                     {
-                        return NotFound();
+                        _context.GangMembers.First(gm => gm.MemberId == id).FirstName = gangMember.FirstName;
+                        _context.GangMembers.First(gm => gm.MemberId == id).LastName = gangMember.LastName;
+                        _context.GangMembers.First(gm => gm.MemberId == id).Nationality = gangMember.Nationality;
+                        
+                        _context.GangMembers.First(gm => gm.MemberId == id).Organization = _context.Organizations.FirstOrDefault(or=>or.Name==gangMember.Organization.Name);
+
+                        if (_context.Organizations.First(gm => gm.Name == gangMember.Organization.Name).Members.Any(gm=>gm.MemberId==gangMember.MemberId))
+                        {
+                             _context.SaveChanges();
+                        }
+                        else
+                        {
+                            _context.Organizations.First(gm => gm.Name == gangMember.Organization.Name).Members.Add(_context.GangMembers.First(gm => gm.MemberId == id));
+                             _context.SaveChanges();
+                        }
                     }
                     else
                     {
-                        throw;
+                        return RedirectToAction(nameof(Index));
                     }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            return View(gangMember);
+            return RedirectToAction(nameof(Index));
         }
-
+        [Authorize]
         // GET: Members/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -126,8 +144,7 @@ namespace aspBattleArena.Controllers
                 return NotFound();
             }
 
-            var gangMember = await _context.GangMembers
-                .FirstOrDefaultAsync(m => m.MemberId == id);
+            var gangMember = await _context.GangMembers.FirstOrDefaultAsync(m => m.MemberId == id);
             if (gangMember == null)
             {
                 return NotFound();
@@ -145,13 +162,23 @@ namespace aspBattleArena.Controllers
             {
                 return Problem("Entity set 'AppDbContext.GangMembers'  is null.");
             }
-            var gangMember = await _context.GangMembers.FindAsync(id);
+            var gangMember =  _context.GangMembers.Include(gm=>gm.Organization).FirstOrDefault(gm=>gm.MemberId ==id);
             if (gangMember != null)
             {
-                _context.GangMembers.Remove(gangMember);
+                if (_context.Organizations.First(gm => gm.Name == gangMember.Organization.Name).Members.Any(gm=>gm.MemberId==gangMember.MemberId))
+                {
+                    _context.Organizations.First(gm => gm.Name == gangMember.Organization.Name).Members.Remove(_context.GangMembers.First(gm => gm.MemberId == id));
+                    _context.GangMembers.Remove(gangMember);
+                    
+                }
+                else
+                {
+                    _context.GangMembers.Remove(gangMember);
+                }
+               
             }
             
-            await _context.SaveChangesAsync();
+             _context.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
 

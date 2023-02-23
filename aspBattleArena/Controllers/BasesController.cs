@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using aspBattleArena.Data;
 using aspBattleArena.Models;
 using aspBattleArena.Views.ViewModels;
+using Microsoft.AspNetCore.Authorization;
 
 namespace aspBattleArena.Controllers
 {
@@ -20,19 +21,14 @@ namespace aspBattleArena.Controllers
         {
             _context = context;
         }
-        // private void PopulateOrganizationsDropDownList(object selectedOrganization = null)
-        // {
-        //     var organizationsQuery = from o in _context.Organizations
-        //         orderby o.Name
-        //         select o;
-        //     ViewBag.DepartmentID = new SelectList(organizationsQuery, "Organization", "Name", selectedOrganization);
-        // }
         // GET: Bases
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
               return _context.Bases != null ? View(await _context.Bases.Include(or=>or.Organization).ToListAsync()) : Problem("Entity set 'AppDbContext.Bases'  is null.");
         }
-
+        
+        [Authorize]
         // GET: Bases/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -49,7 +45,7 @@ namespace aspBattleArena.Controllers
 
             return View(@base);
         }
-
+        [Authorize]
         // GET: Bases/Create
         public IActionResult Create()
         { 
@@ -60,7 +56,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        
+        [Authorize]
         public IActionResult Create([FromForm] BaseViewModel baseViewModel)
         {
             try
@@ -82,56 +78,35 @@ namespace aspBattleArena.Controllers
             catch (DataException /*dex*/)
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again.");
-
-                
-            }
-            
+            } 
             return View();
         }
-
+        [Authorize]
         // GET: Bases/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
-            if (id == null || _context.Bases == null)
-            {
-                return NotFound();
-            }
-
-            var @base = await _context.Bases.FindAsync(id);
-            if (@base == null)
-            {
-                return NotFound();
-            }
-            return View();
+            var @base = await _context.Bases.Include(or=>or.Organization).FirstAsync(b=>b.BaseID==id);
+   
+            return View(@base);
         }
 
         // POST: Bases/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        
-        public IActionResult Edit(int id, [FromForm] BaseViewModel baseViewModel)
+        [Authorize]
+        public IActionResult Edit(int id,[FromForm] Base baseViewModel)
         {
-           
-            if (ModelState.IsValid)
-            {
-                
-                
-
-                    _context.Bases.FirstOrDefault(b => b.BaseID == id).Name = baseViewModel.Name;
-                    _context.Bases.FirstOrDefault(b => b.BaseID == id).Adress = baseViewModel.Address;
-                    _context.Bases.FirstOrDefault(b => b.BaseID == id).Organization 
-                        = _context.Organizations.FirstOrDefault(o=>o.Name==baseViewModel.OrganizationName);
+            _context.Bases.First(b => b.BaseID == id).Name = baseViewModel.Name;
+                    _context.Bases.First(b => b.BaseID == id).Adress = baseViewModel.Adress;
+                    _context.Bases.First(b => b.BaseID == id).Organization 
+                        = _context.Organizations.First(o=>o.Name==baseViewModel.Organization.Name);
+                    _context.Bases.First(b => b.BaseID == id).OrganizationName = baseViewModel.Organization.Name;
                      _context.SaveChanges();
-                
-                
-                return RedirectToAction(nameof(Index));
-            }
-            return View();
+                     return RedirectToAction(nameof(Index));
         }
-
         
-
+        [Authorize]
         // GET: Bases/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -153,6 +128,7 @@ namespace aspBattleArena.Controllers
         // POST: Bases/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
+        [Authorize]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Bases == null)

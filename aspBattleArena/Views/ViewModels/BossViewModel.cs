@@ -1,11 +1,13 @@
 using System.ComponentModel.DataAnnotations;
+using aspBattleArena.Models;
 using Azure.Core;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace aspBattleArena.Views.ViewModels;
 
 public class BossViewModel
 {
-   
+   public  int BossId { get; set; }
     [Required]
     [Display(Name="Fist Name")]
     public string FirstName { get; set; }
@@ -16,8 +18,9 @@ public class BossViewModel
     [Display(Name="Age")]
     public int Age { get; set; }
     [Display(Name = "Nationality")]
-    public string Nationality { get; set; }
+    public Nationality Nationality { get; set; }
     [Display(Name = "Organization")]
-    public  string Ogranization { get; set; }
+    public  string Organization { get; set; }
+    public Organization Organizations { get; set; }
 
 }

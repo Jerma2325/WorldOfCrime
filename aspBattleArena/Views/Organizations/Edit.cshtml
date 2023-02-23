@@ -13,17 +13,22 @@
         <form asp-action="Edit">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input type="hidden" asp-for="OgranizationId" />
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom:1em">
                 <label asp-for="Name" class="control-label"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom:1em">
                 <label asp-for="CountryOfOrigin" class="control-label"></label>
                 <input asp-for="CountryOfOrigin" class="form-control" />
                 <span asp-validation-for="CountryOfOrigin" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-bottom:1em">
+                <label asp-for="Boss" class="control-label"></label>
+                <input asp-for="Boss.BossId" class="form-control" />
+            </div>
+            
+            <div class="form-group" style="margin-bottom:1em">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
         </form>

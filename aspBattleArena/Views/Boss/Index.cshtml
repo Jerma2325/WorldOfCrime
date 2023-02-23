@@ -1,35 +1,48 @@
 @model IEnumerable<aspBattleArena.Models.Boss>
+@* *@
+@* @{ *@
+@*     ViewData["Title"] = "Index"; *@
+@* } *@
 
-@{
-    ViewData["Title"] = "Index";
+<h1>Bosses</h1>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
 }
-
-<h1>Index</h1>
-
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
 <table class="table">
     <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.FirstName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.LastName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Age)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Nationality)
-            </th>
-            <th></th>
-        </tr>
+    <tr>
+        <th>
+            Id
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Age)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Nationality)
+        </th>
+        <th>
+            Organization
+            @* @Html.DisplayNameFor(model=>model.Organization) *@
+        </th>
+
+    </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.BossId)
+            </td>
             <td>
                 @Html.DisplayFor(modelItem => item.FirstName)
             </td>
@@ -41,6 +54,9 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Nationality)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem=>item.OrganizationName)
             </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.BossId">Edit</a> |

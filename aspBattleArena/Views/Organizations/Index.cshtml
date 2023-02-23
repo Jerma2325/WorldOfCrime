@@ -4,11 +4,14 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<h1>Organizations</h1>
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
+@if (User.Identity.IsAuthenticated)
+{
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+}
 <table class="table">
     <thead>
         <tr>
@@ -16,7 +19,10 @@
                 @Html.DisplayNameFor(model => model.Name)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.CountryOfOrigin)
+                Country of Origin
+            </th>
+            <th>
+                Boss
             </th>
             <th></th>
         </tr>
@@ -30,6 +36,10 @@
             <td>
                 @Html.DisplayFor(modelItem => item.CountryOfOrigin)
             </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NameOfBoss)
+            </td>
+            
             <td>
                 <a asp-action="Edit" asp-route-id="@item.OgranizationId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.OgranizationId">Details</a> |
