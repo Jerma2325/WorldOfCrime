@@ -1,6 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using aspBattleArena.Models;
+using System.Net.Http;
+using Newtonsoft.Json;
 
 namespace aspBattleArena.Controllers;
 
