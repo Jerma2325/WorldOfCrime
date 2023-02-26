@@ -6,7 +6,7 @@ Testowi użytkownicy:
 
 Admin: 
         login    “Admin” 
-	      hasło    “password”
+	hasło    “password”
 User: 
       login 	“User”
       hasło 	“password”
