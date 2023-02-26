@@ -19,7 +19,7 @@ namespace aspBattleArena.Controllers
         {
             _context = context;
         }
-        [AllowAnonymous]
+        
         // GET: Members
         public async Task<IActionResult> Index()
         {
@@ -27,7 +27,7 @@ namespace aspBattleArena.Controllers
                           View(await _context.GangMembers.ToListAsync()) :
                           Problem("Entity set 'AppDbContext.GangMembers'  is null.");
         }
-        [Authorize]
+        
         // GET: Members/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -44,7 +44,7 @@ namespace aspBattleArena.Controllers
 
             return View(gangMember);
         }
-        [Authorize]
+        
         // GET: Members/Create
         public IActionResult Create()
         {
@@ -87,7 +87,7 @@ namespace aspBattleArena.Controllers
                 }
                 // return View(gangMember);
         }
-        [Authorize]
+        
         // GET: Members/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -108,7 +108,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        
         public IActionResult Edit(int id, [FromForm] GangMember gangMember)
         {
             if (_context.Organizations.Any(or=>or.Name==gangMember.Organization.Name))
@@ -135,7 +135,7 @@ namespace aspBattleArena.Controllers
                     }
             return RedirectToAction(nameof(Index));
         }
-        [Authorize]
+        
         // GET: Members/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {

@@ -22,7 +22,7 @@ namespace aspBattleArena.Controllers
             _context = context;
             
         }
-        [AllowAnonymous]
+        
         // GET: Boss
         public async Task<IActionResult> Index()
         {
@@ -30,7 +30,7 @@ namespace aspBattleArena.Controllers
                           View(await _context.Bosses.ToListAsync()) :
                           Problem("Entity set 'AppDbContext.Bosses'  is null.");
         }
-        [AllowAnonymous]
+        
         // GET: Boss/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -48,7 +48,7 @@ namespace aspBattleArena.Controllers
             return View(@boss );
         }
         
-        [Authorize(Roles ="Admin")]
+       
         // GET: Boss/Create
         public IActionResult Create()
         {
@@ -59,7 +59,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+       
         public IActionResult Create([FromForm] BossViewModel bossViewModel)
         {
             try
@@ -86,7 +86,7 @@ namespace aspBattleArena.Controllers
             } 
             return View();
         }
-        [Authorize]
+        
         // GET: Boss/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -106,7 +106,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        
         public IActionResult Edit(int id, [FromForm] Boss bossViewModel)
         {
             
@@ -122,7 +122,7 @@ namespace aspBattleArena.Controllers
                 return RedirectToAction(nameof(Index));
             
         }
-        [Authorize]
+        
         // GET: Boss/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -144,7 +144,7 @@ namespace aspBattleArena.Controllers
         // POST: Boss/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Bosses == null)
