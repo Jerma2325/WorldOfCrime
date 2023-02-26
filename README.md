@@ -15,16 +15,16 @@ są 4 encji i jeden eunm
 
 eunm: Nationality (mieści w sobie 10 narodowości które można wybrać podczas tworzenia gang membera lub bossa)
 
-Boss: 
- int BossId 
- string FirstName 
- string LastName 
- int Age 
- Nationality Nationality 
- string OrganizationName 
- IList<Organization> Organizations 
+Boss
+    int BossId 
+    string FirstName 
+    string LastName 
+    int Age 
+    Nationality Nationality 
+    string OrganizationName 
+    IList<Organization> Organizations 
 
-Gang member  ma charakterystyki które będą używane podczas walki z innymi memberami
+Gang member (ma charakterystyki które będą używane podczas walki z innymi memberami)
  
     int MemberId 
     string FirstName 
