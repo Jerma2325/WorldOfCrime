@@ -22,7 +22,7 @@ namespace aspBattleArena.Controllers
         {
             _context = context;
         }
-        [AllowAnonymous]
+        
         // GET: Organizations
         public async Task<IActionResult> Index()
         {
@@ -30,7 +30,7 @@ namespace aspBattleArena.Controllers
                           View(await _context.Organizations.ToListAsync()) :
                           Problem("Entity set 'AppDbContext.Organizations'  is null.");
         }
-        [Authorize] 
+        
         // GET: Organizations/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -41,7 +41,7 @@ namespace aspBattleArena.Controllers
 
             return View(@organization);
         }
-        [Authorize]
+        
         // GET: Organizations/Create
         public IActionResult Create()
         {
@@ -52,7 +52,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        
         public  IActionResult Create([FromForm] OrganizationViewModel organization)
         {
             try
@@ -73,7 +73,7 @@ namespace aspBattleArena.Controllers
             } 
             return View(organization);
         }
-        [Authorize(Roles = "Admin,User")]
+        
         // GET: Organizations/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -94,7 +94,7 @@ namespace aspBattleArena.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         public IActionResult Edit(int id, [FromForm] Organization organization)
         {
 
@@ -114,7 +114,7 @@ namespace aspBattleArena.Controllers
                 return RedirectToAction(nameof(Index));
             
         }
-        [Authorize]
+        
         // GET: Organizations/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -136,7 +136,7 @@ namespace aspBattleArena.Controllers
         // POST: Organizations/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Organizations == null)
