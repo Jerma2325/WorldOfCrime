@@ -1,21 +1,25 @@
 # Asp_Project
 Kod źródłowy jest umieciony na githubie wraz z bazą danych.
 
-Applikacja posiada wszystkie mozliwosci CRUD + logowanie 
+Applikacja posiada wszystkie mozliwosci CRUD + logowanie
+
 Testowi użytkownicy:
 
-Admin: 
-        login    “Admin” 
-	hasło    “password”
-User: 
-      login 	“User”
-      hasło 	“password”
+Admin
+
+    login    “Admin” 
+    hasło    “password”
+User
+
+     login   “User”
+     hasło   “password”
 
 są 4 encji i jeden eunm
 
 eunm: Nationality (mieści w sobie 10 narodowości które można wybrać podczas tworzenia gang membera lub bossa)
 
 Boss
+
     int BossId 
     string FirstName 
     string LastName 
