@@ -22,13 +22,13 @@ namespace aspBattleArena.Controllers
             _context = context;
         }
         // GET: Bases
-        [AllowAnonymous]
+        
         public async Task<IActionResult> Index()
         {
               return _context.Bases != null ? View(await _context.Bases.Include(or=>or.Organization).ToListAsync()) : Problem("Entity set 'AppDbContext.Bases'  is null.");
         }
         
-        [Authorize]
+        
         // GET: Bases/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -45,7 +45,7 @@ namespace aspBattleArena.Controllers
 
             return View(@base);
         }
-        [Authorize]
+        
         // GET: Bases/Create
         public IActionResult Create()
         { 
@@ -56,7 +56,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        
         public IActionResult Create([FromForm] BaseViewModel baseViewModel)
         {
             try
@@ -81,7 +81,7 @@ namespace aspBattleArena.Controllers
             } 
             return View();
         }
-        [Authorize]
+        
         // GET: Bases/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -94,7 +94,7 @@ namespace aspBattleArena.Controllers
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [Authorize]
+        
         public IActionResult Edit(int id,[FromForm] Base baseViewModel)
         {
             _context.Bases.First(b => b.BaseID == id).Name = baseViewModel.Name;
@@ -106,7 +106,7 @@ namespace aspBattleArena.Controllers
                      return RedirectToAction(nameof(Index));
         }
         
-        [Authorize]
+        
         // GET: Bases/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -128,7 +128,7 @@ namespace aspBattleArena.Controllers
         // POST: Bases/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
-        [Authorize]
+        
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
             if (_context.Bases == null)
