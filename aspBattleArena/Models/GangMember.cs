@@ -7,7 +7,13 @@ public class GangMember
 {
     [Key]
     public int MemberId { get; set; }
+    [Required(ErrorMessage = "Member need to have the first name")]
+    [Display(Name="Fist Name")]
+    [RegularExpression(@"^[a-zA-Z]*$",ErrorMessage = "First name must contatin only letters")]
     public string FirstName { get; set; }
+    [Required(ErrorMessage = "Member need to have the last name")]
+    [Display(Name="Last Name")]
+    [RegularExpression(@"^[a-zA-Z]*$",ErrorMessage = "Last name must contatin only letters")]
     public string LastName { get; set; }
     public  Nationality Nationality { get; set; }
     public Organization Organization { get; set; }

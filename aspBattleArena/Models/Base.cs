@@ -10,6 +10,8 @@ public class Base
     [Key]
     
     public int BaseID { get; set; }
+    [Required]
+    [RegularExpression("[a-zA-Z]+")]
     public string Name { get; set; }
     public string Adress { get; set; }
     public  string OrganizationName { get; set; }

@@ -8,11 +8,13 @@ namespace aspBattleArena.Views.ViewModels;
 public class BossViewModel
 {
    public  int BossId { get; set; }
-    [Required]
+    [Required(ErrorMessage = "Boss need to have the first name")]
     [Display(Name="Fist Name")]
+    [RegularExpression(@"^[a-zA-Z]*$",ErrorMessage = "First name must contatin only letters")]
     public string FirstName { get; set; }
-    [Required]
+    [Required(ErrorMessage = "Boss need to have the last name")]
     [Display(Name="Last Name")]
+    [RegularExpression(@"^[a-zA-Z]*$",ErrorMessage = "Last name must contatin only letters")]
     public string LastName { get; set; }
     
     [Display(Name="Age")]

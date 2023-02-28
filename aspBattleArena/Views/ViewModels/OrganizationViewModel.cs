@@ -6,8 +6,9 @@ namespace aspBattleArena.Views.ViewModels;
 public class OrganizationViewModel
 {
     public int OrganizationId { get; set; }
-    [Microsoft.Build.Framework.Required]
+    [Required(ErrorMessage = "Enter a name for a base" )]
     [Display(Name = "Name")]
+    [RegularExpression(@"^[A-Z]+[a-zA-Z]*$",ErrorMessage = "The name must contatin only letters")]
     public string Name { get; set; }
     [Display(Name = "Country of Origin")]
     public string CountryOfOrigin { get; set; }

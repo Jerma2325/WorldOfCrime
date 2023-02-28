@@ -9,6 +9,8 @@ public class BaseViewModel
 {
     [Required]
     [Display(Name = "Name")]
+    [RegularExpression(@"^[A-Z]+[a-zA-Z]*$",ErrorMessage = "The name must contatin only letters")]
+    
     public string Name { get; set; }
     [Required]
     [Display(Name = "Address")]

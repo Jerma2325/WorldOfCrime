@@ -63,14 +63,14 @@ namespace aspBattleArena.Controllers
             {
                 if (ModelState.IsValid)
                 {
-                    
-                    _context.Bases.Add(new Base()
-                    {
+                    var bBase =  new Base( ){
                         Organization =_context.Organizations.FirstOrDefault(o=>o.Name==baseViewModel.OrganizationName), 
                         Adress = baseViewModel.Address,
                         Name = baseViewModel.Name,
                         
-                    });
+                    };
+                    _context.Bases.Add(bBase
+                    );
                      _context.SaveChanges();
                     return RedirectToAction(nameof(Index));
                 }
@@ -79,7 +79,7 @@ namespace aspBattleArena.Controllers
             {
                 ModelState.AddModelError("", "Unable to save changes. Try again.");
             } 
-            return View();
+            return View(baseViewModel);
         }
         
         // GET: Bases/Edit/5
